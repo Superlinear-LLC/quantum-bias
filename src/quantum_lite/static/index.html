@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Quantum Bias Lab</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Ccircle cx=%278%27 cy=%278%27 r=%277%27 fill=%27%2322c55e%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+    <symbol id="i-keyboard" viewBox="0 0 24 24"><path d="M10 8h.01M12 12h.01M14 8h.01M16 12h.01M18 8h.01M6 8h.01M7 16h10M8 12h.01"/><rect width="20" height="16" x="2" y="4" rx="2"/></symbol>
+    <symbol id="i-timer" viewBox="0 0 24 24"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
+    <symbol id="i-radio" viewBox="0 0 24 24"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============================================================ SETUP -->
+<main id="setup" class="page">
+  <div class="column">
+    <div class="alerts" id="alerts-setup" role="alert" aria-live="assertive"></div>
+
+    <section class="card" id="setup-card">
+      <div class="card-content">
+
+        <div class="group">
+          <h2 class="group-title">Interaction Goal</h2>
+          <div class="grid-2 gap-4" id="goal-cards">
+            <button type="button" class="choice" data-goal="affect" aria-pressed="true">
+              <svg class="icon icon-lg"><use href="#i-zap"/></svg>
+              <span class="choice-title">Affect</span>
+              <span class="choice-sub">Influence the field</span>
+            </button>
+            <button type="button" class="choice" data-goal="guess" aria-pressed="false">
+              <svg class="icon icon-lg"><use href="#i-help"/></svg>
+              <span class="choice-title">Guess</span>
+              <span class="choice-sub">Perceive the field</span>
+            </button>
+          </div>
+          <div class="grid-2 gap-3" id="sub-affect">
+            <button type="button" class="choice sm" data-sub="key_press" aria-pressed="true">
+              <svg class="icon"><use href="#i-keyboard"/></svg>
+              <span class="choice-title sm">Key Press</span>
+            </button>
+            <button type="button" class="choice sm" data-sub="stream" aria-pressed="false">
+              <svg class="icon"><use href="#i-timer"/></svg>
+              <span class="choice-title sm">Stream</span>
+            </button>
+          </div>
+          <div class="grid-2 gap-3" id="sub-guess" hidden>
+            <button type="button" class="choice sm" data-sub="predict" aria-pressed="true">
+              <svg class="icon"><use href="#i-bulb"/></svg>
+              <span class="choice-title sm">Predict</span>
+              <span class="choice-sub xs">Guess, then measure</span>
+            </button>
+            <button type="button" class="choice sm" data-sub="perceive" aria-pressed="false">
+              <svg class="icon"><use href="#i-eye"/></svg>
+              <span class="choice-title sm">Perceive</span>
+              <span class="choice-sub xs">Hidden bit, then reveal</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="group" id="group-target">
+          <h2 class="group-title">Target Bias</h2>
+          <div class="grid-2 gap-4" id="target-cards">
+            <button type="button" class="choice target t0" data-target="0" aria-pressed="false">
+              <span class="digit red">0</span>
+              <span class="choice-sub">Target Zero</span>
+            </button>
+            <button type="button" class="choice target t1" data-target="1" aria-pressed="true">
+              <span class="digit green">1</span>
+              <span class="choice-sub">Target One</span>
+            </button>
+          </div>
+          <p class="note center" id="target-note">In the focus view, the ball moves toward your target (1).</p>
+        </div>
+
+        <div class="group">
+          <h2 class="group-title left">Quantum Source</h2>
+          <select id="provider" class="select" aria-label="Quantum source"></select>
+          <p class="note" id="provider-note"></p>
+        </div>
+
+        <div class="group">
+          <h2 class="group-title left">Source mode</h2>
+          <div class="grid-2 gap-3" id="source-cards">
+            <button type="button" class="choice sm" data-source="buffered" aria-pressed="true">
+              <svg class="icon"><use href="#i-db"/></svg>
+              <span class="choice-title sm">Buffered</span>
+              <span class="choice-sub xs">Bits from a pool measured earlier. Instant.</span>
+            </button>
+            <button type="button" class="choice sm" data-source="live" aria-pressed="false">
+              <svg class="icon"><use href="#i-radio"/></svg>
+              <span class="choice-title sm">Live</span>
+              <span class="choice-sub xs">A fresh job per request. Real queue and latency.</span>
+            </button>
+          </div>
+          <div class="pool" id="pool-line" hidden>
+            <div class="pool-text mono" id="pool-text"></div>
+            <div class="pool-actions">
+              <label class="inline-label" for="prefetch-shots">Shots</label>
+              <input id="prefetch-shots" class="input mono" type="number" min="1" step="1" value="5000" inputmode="numeric">
+              <button type="button" class="btn outline sm" id="btn-prefetch">Prefetch</button>
+            </div>
+            <div class="note" id="prefetch-estimate"></div>
+            <div class="note" id="pool-job"></div>
+          </div>
+        </div>
+
+        <div class="group" id="group-stream" hidden>
+          <h2 class="group-title left">Stream limits</h2>
+          <div class="pool">
+            <div class="pool-actions">
+              <label class="inline-label" for="stream-seconds">Stream duration (seconds)</label>
+              <input id="stream-seconds" class="input mono" type="number" min="1" max="3600" step="1" value="30" inputmode="numeric">
+            </div>
+            <div class="pool-actions" id="stream-jobs-row" hidden>
+              <label class="inline-label" for="stream-max-jobs">Max IBM jobs</label>
+              <input id="stream-max-jobs" class="input mono" type="number" min="1" step="1" value="5" inputmode="numeric">
+            </div>
+            <div class="note" id="stream-estimate"></div>
+            <div class="note">The server stops the stream when either limit is reached, even if this page hangs.</div>
+          </div>
+        </div>
+
+        <div class="group boxed">
+          <div class="boxed-head">
+            <h2 class="group-title left">Parallel Aggregation</h2>
+            <p class="note">Measures several qubits per shot and aggregates them into one bit.</p>
+          </div>
+          <div class="grid-3 gap-2" id="agg-cards">
+            <button type="button" class="choice xs" data-agg="none" aria-pressed="true">
+              <span class="choice-title sm">Disabled</span><span class="choice-sub tiny">1 qubit</span>
+            </button>
+            <button type="button" class="choice xs" data-agg="xor" aria-pressed="false">
+              <span class="choice-title sm">XOR</span><span class="choice-sub tiny">Parity vote</span>
+            </button>
+            <button type="button" class="choice xs" data-agg="majority" aria-pressed="false">
+              <span class="choice-title sm">Majority</span><span class="choice-sub tiny">&gt;50% vote</span>
+            </button>
+          </div>
+          <div class="qubits" id="qubits-row" hidden>
+            <span class="qubits-label">Qubits</span>
+            <button type="button" class="btn outline icon-btn" id="q-minus" aria-label="Fewer qubits">&minus;</button>
+            <input id="qubits" class="input mono qubits-input" type="number" min="1" max="16" step="1" value="1" inputmode="numeric" aria-label="Qubit count">
+            <button type="button" class="btn outline icon-btn" id="q-plus" aria-label="More qubits">+</button>
+            <span class="note" id="qubits-note"></span>
+          </div>
+        </div>
+
+        <button type="button" class="btn primary xl" id="btn-start">Start Training</button>
+
+        <details class="details" id="details">
+          <summary>Details</summary>
+          <div class="details-body">
+            <div class="details-row">
+              <label class="inline-label" for="stream-shots">Stream shots per cycle</label>
+              <input id="stream-shots" class="input mono" type="number" min="1" step="1" value="20" inputmode="numeric">
+              <label class="inline-label" for="stream-interval">Buffered interval ms</label>
+              <input id="stream-interval" class="input mono" type="number" min="10" step="10" value="500" inputmode="numeric">
+            </div>
+            <div class="mono muted-line" id="budget-line">IBM budget: n/a</div>
+            <div class="mono muted-line" id="job-line">Latest job: none yet</div>
+            <div class="mono muted-line" id="conn-line">Events: connecting</div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- ============================================================ FOCUS -->
+<div id="focus" class="focus" hidden>
+  <div class="focus-column">
+    <div class="alerts" id="alerts-focus" role="alert" aria-live="assertive"></div>
+
+    <h1 class="focus-title" id="focus-title">Target: 1</h1>
+
+    <!-- Affect: the ball card -->
+    <section class="card focus-card clickable" id="ball-card" role="button" tabindex="0" aria-label="Request quantum bit">
+      <div class="card-content">
+        <div class="calib"><span class="badge">Not calibrated</span><span class="note">Baseline offset not applied</span></div>
+        <div class="viz">
+          <div class="viz-labels">
+            <span id="lbl-left"></span>
+            <span id="lbl-center"></span>
+            <span id="lbl-right"></span>
+          </div>
+          <div class="track-wrap" id="track-wrap">
+            <div class="track" id="track">
+              <div class="track-center"></div>
+              <div class="track-zone" id="track-zone"></div>
+              <div class="track-edge left"></div>
+              <div class="track-edge right"></div>
+            </div>
+            <div class="fire-layer" id="fire-layer"></div>
+            <div class="ball-layer">
+              <div class="ball" id="ball">
+                <div class="flame" id="flame" hidden aria-hidden="true">
+                  <svg viewBox="0 0 100 120">
+                    <defs>
+                      <linearGradient id="flame-outer" x1="50%" x2="50%" y1="0%" y2="100%">
+                        <stop offset="0%" stop-color="#fff3d4"/><stop offset="32%" stop-color="#ffca69"/>
+                        <stop offset="68%" stop-color="#ff6e1a"/><stop offset="100%" stop-color="#cb2e05"/>
+                      </linearGradient>
+                      <linearGradient id="flame-inner" x1="50%" x2="50%" y1="0%" y2="100%">
+                        <stop offset="0%" stop-color="#fffceb"/><stop offset="58%" stop-color="#ffd88c"/>
+                        <stop offset="100%" stop-color="#ff8f2e"/>
+                      </linearGradient>
+                    </defs>
+                    <path id="flame-outer-path" fill="url(#flame-outer)" d=""/>
+                    <path id="flame-inner-path" fill="url(#flame-inner)" d=""/>
+                  </svg>
+                </div>
+                <div class="ball-scale" id="ball-scale">
+                  <div class="ball-core" id="ball-core"><div class="specular"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="viz-stats">
+            <span id="st-left"></span>
+            <span id="st-sigma" class="mono"></span>
+            <span id="st-right"></span>
+          </div>
+          <div class="viz-big"><span id="big-pct" class="big mono"></span></div>
+          <div class="viz-streak" id="streak-msg"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Guess: Predict / Perceive card -->
+    <section class="card focus-card" id="guess-card" hidden>
+      <div class="card-content guess">
+        <div class="guess-prompt" id="guess-prompt"></div>
+        <div class="guess-buttons" id="guess-buttons">
+          <button type="button" class="btn outline guess-btn" data-guess="0" aria-label="Guess 0">0</button>
+          <button type="button" class="btn outline guess-btn" data-guess="1" aria-label="Guess 1">1</button>
+        </div>
+        <button type="button" class="btn outline lg" id="btn-prepare" hidden>Request hidden bit</button>
+        <div class="guess-result" id="guess-result"></div>
+        <div class="viz-stats guess-stats"><span id="gs-left" class="mono"></span><span id="gs-center" class="mono"></span><span id="gs-right" class="mono"></span></div>
+        <div class="viz-streak" id="guess-streak"></div>
+      </div>
+    </section>
+
+    <div class="stream-bar" id="stream-bar" hidden>
+      <span class="mono stream-status" id="stream-status"></span>
+      <button type="button" class="btn outline sm" id="btn-stream-stop" hidden>Stop stream</button>
+    </div>
+
+    <div class="hints" id="hints"></div>
+
+    <button type="button" class="exit" id="btn-exit" aria-label="Exit focus mode">
+      <svg class="icon icon-xl"><use href="#i-x"/></svg>
+    </button>
+
+    <div class="provenance mono" id="provenance"></div>
+  </div>
+</div>
+
+<script src="logic.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
